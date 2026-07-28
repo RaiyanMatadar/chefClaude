@@ -15,6 +15,12 @@
     "react-markdown": "^10.1.0",
     "vite": "latest"
   },
+  "overrides": {
+    "react-markdown": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
+  },
   "devDependencies": {
     "@vitejs/plugin-react": "*"
   }
