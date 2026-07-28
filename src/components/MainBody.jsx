@@ -1,16 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import IngredientsList from "./IngredientsList";
 import ClaudeRecipe from "./ClaudeRecipe";
-import { getRecipeFromMistral } from "../../ai";
+import { getRecipeFromChefClaude } from "../../ai";
 
 export default function MainBody() {
-  const [ingredients, setIngredients] = useState([
-    "tomato",
-    "chicken",
-    "carrot",
-    "potato"
-  ]);
-  
+  const [ingredients, setIngredients] = useState([]);
   const [recipe, setRecipe] = useState("");
   const [recipeShown, setRecipeShown] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +18,7 @@ export default function MainBody() {
   async function handleGetRecipe() {
     setRecipeShown(true);
     setIsLoading(true);
-    const recipeMarkdown = await getRecipeFromMistral(ingredients);
+    const recipeMarkdown = await getRecipeFromChefClaude(ingredients);
     setRecipe(recipeMarkdown);
     setIsLoading(false);
   }
