@@ -1,11 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import IngredientsList from "./IngredientsList";
 import ClaudeRecipe from "./ClaudeRecipe";
+import { getRecipeFromMistral } from "../../ai";
 
 export default function MainBody() {
-  const [ingredients, setIngredients] = useState([]);
-
+  const [ingredients, setIngredients] = useState([
+    "tomato",
+    "chicken",
+    "carrot",
+    "potato"
+  ]);
+  
+  const [recipe, setRecipe] = useState("");
   const [recipeShown, setRecipeShown] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const ref = useRef(null);
 
   function addIngredient(formData) {
@@ -13,8 +21,12 @@ export default function MainBody() {
     setIngredients((prevIngredients) => [...prevIngredients, newIngredient]);
   }
 
-  function toggleRecipeShown() {
-    setRecipeShown((prevRecipeShown) => !prevRecipeShown);
+  async function handleGetRecipe() {
+    setRecipeShown(true);
+    setIsLoading(true);
+    const recipeMarkdown = await getRecipeFromMistral(ingredients);
+    setRecipe(recipeMarkdown);
+    setIsLoading(false);
   }
 
   useEffect(() => {
@@ -46,11 +58,11 @@ export default function MainBody() {
         <IngredientsList
           ref={ref}
           ingredients={ingredients}
-          onToggleRecipeShownClick={toggleRecipeShown}
+          onToggleRecipeShownClick={handleGetRecipe}
         />
       )}
 
-      {recipeShown && <ClaudeRecipe />}
+      {recipeShown && <ClaudeRecipe recipe={isLoading ? "" : recipe} />}
     </main>
   );
 }
