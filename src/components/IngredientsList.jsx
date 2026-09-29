@@ -1,21 +1,29 @@
-export default function IngredientsList(props) {
-    console.log(props.ref.current);
-    
-    const ingredientsListItems = props.ingredients.map(ingredient => (
-        <li key={ingredient}>{ingredient}</li>
-    ))
+export default function IngredientsList({ ingredients, onRemove }) {
+    if (ingredients.length === 0) {
+        return (
+            <div className="pantry-empty" aria-live="polite">
+                <span className="empty-bowl" aria-hidden="true">+</span>
+                <p>Your list is looking fresh.<br />Add your first ingredient above.</p>
+            </div>
+        );
+    }
 
     return (
-        <section>
-            <h2>Ingredients on hand:</h2>
-            <ul className="ingredients-list" aria-live="polite">{ingredientsListItems}</ul>
-            {props.ingredients.length > 3 && <div className="get-recipe-container">
-                <div ref={props.ref}>
-                    <h3>Ready for a recipe?</h3>
-                    <p>Generate a recipe from your list of ingredients.</p>
-                </div>
-                <button onClick={props.onToggleRecipeShownClick}>Get a recipe</button>
-            </div>}
-        </section>
-    )
+        <ul className="ingredients-list" aria-label="Ingredients on hand" aria-live="polite">
+            {ingredients.map((ingredient) => (
+                <li key={ingredient}>
+                    <span className="ingredient-bullet" aria-hidden="true" />
+                    <span>{ingredient}</span>
+                    <button
+                        type="button"
+                        className="remove-ingredient"
+                        aria-label={`Remove ${ingredient}`}
+                        onClick={() => onRemove(ingredient)}
+                    >
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </li>
+            ))}
+        </ul>
+    );
 }

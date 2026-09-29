@@ -29,8 +29,7 @@ Before running this project, ensure you have the following installed:
    Create a `.env` file in the project root with your API keys:
 
    ```env
-   VITE_ANTHROPIC_API_KEY=your_anthropic_api_key
-   VITE_HUGGINGFACE_API_KEY=your_huggingface_api_key
+   VITE_OPENROUTER_API_KEY=your-key
    ```
 
    > **Note:** API keys are required for the AI features to work. Obtain keys from [Anthropic](https://console.anthropic.com/) and [Hugging Face](https://huggingface.co/settings/tokens).
